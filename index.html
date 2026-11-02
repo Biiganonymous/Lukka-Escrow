@@ -10,7 +10,7 @@
 @media (prefers-color-scheme:dark){:root{--bg:#0f1318;--card:#181e26;--tx:#eef1f5;--mut:#98a2b3;--bd:#2a3340;--ac:#f7941e;--acx:#1a1204;--warn:#f79009;--bad:#f97066;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+main{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:20px 16px 48px}
 h1{font-size:24px;margin:8px 0 2px;letter-spacing:-.01em}h2{font-size:17px;margin:0 0 12px}
 .sub{color:var(--mut);margin:0 0 18px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
@@ -54,7 +54,7 @@ button[disabled]{opacity:.5;cursor:not-allowed}
 .logo .w{fill:#fff}.logo .o{fill:#f7941e}.logo .b{fill:#29abe2}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}.chips span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--card);border:1px solid var(--bd);color:var(--mut)}
 .fl{width:100%;height:auto;display:block;margin-bottom:8px}.fl .n{fill:var(--bg);stroke:var(--bd);stroke-width:2}.fl .e{fill:var(--bg);stroke:var(--ac);stroke-width:2.5}.fl .a{stroke:var(--ac);stroke-width:2.5;stroke-dasharray:6 5;fill:none;animation:dash 1.2s linear infinite}.fl .af{fill:var(--ac)}.fl .pf{fill:var(--mut)}.fl .lk{fill:var(--ac)}.fl .ks{fill:none;stroke:var(--ac);stroke-width:4;stroke-linecap:round}.fl text{fill:var(--tx);font:700 14px system-ui,sans-serif;text-anchor:middle}.fl text.m{fill:var(--mut);font-weight:500;font-size:12px}
-@keyframes dash{to{stroke-dashoffset:-22}}@media (prefers-reduced-motion:reduce){.fl .a{animation:none}}
+@keyframes dash{to{stroke-dashoffset:-22}}
 .coin{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;vertical-align:middle;margin-right:6px}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .banner{border:1px solid var(--bad);border-radius:12px;padding:12px 14px;margin-bottom:14px;background:var(--card);font-size:14px}
@@ -67,9 +67,64 @@ button[disabled]{opacity:.5;cursor:not-allowed}
 .item .grow{flex:1;min-width:0}
 .item .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .item button{flex:0 0 auto;padding:8px 12px;font-size:14px}
+
+/* background */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+-webkit-mask-image:radial-gradient(ellipse 100% 75% at 50% 32%,#000 25%,transparent 88%);
+mask-image:radial-gradient(ellipse 100% 75% at 50% 32%,#000 25%,transparent 88%)}
+#bg svg{position:absolute;left:50%;top:-1200px;width:900px;height:3600px;margin-left:-450px}
+#bg .s1{opacity:.55}
+#bg .s2{opacity:.2;width:1500px;height:6000px;margin-left:-750px;filter:blur(1.5px)}
+#bg .drift{animation:drift 130s linear infinite}
+#bg .d2{animation-duration:78s}
+#bg .blk rect{fill:var(--card);fill-opacity:.55;stroke:var(--ac);stroke-width:1.5;stroke-opacity:.55}
+#bg .blk path{stroke:var(--ac);stroke-width:1.4;stroke-opacity:.4;stroke-linecap:round}
+#bg .blk{animation:pulse 7s ease-in-out infinite}
+#bg .blk:nth-of-type(2n){animation-delay:-2.3s}
+#bg .blk:nth-of-type(3n){animation-delay:-4.6s}
+#bg .lnk{stroke:var(--ac);stroke-width:1.2;stroke-dasharray:5 8;fill:none;stroke-opacity:.32;animation:march 3.5s linear infinite}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-1200px)}}
+@keyframes march{to{stroke-dashoffset:-26}}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+#bg .drift,#bg .blk,#bg .lnk,.fl .a{animation:none}
+}
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<g id="tile">
+<path class="lnk" d="M117 107L322 62"/><path class="lnk" d="M322 62L670 140"/><path class="lnk" d="M670 140L780 440"/>
+<path class="lnk" d="M174 344L546 326"/><path class="lnk" d="M546 326L709 729"/><path class="lnk" d="M88 628L403 583"/>
+<path class="lnk" d="M403 583L709 729"/><path class="lnk" d="M265 845L582 922"/><path class="lnk" d="M136 1066L450 1140"/>
+<path class="lnk" d="M450 1140L723 1103"/>
+<g class="blk"><rect x="90" y="80" width="54" height="54" rx="11"/><path d="M101 101h32M101 112h20"/></g>
+<g class="blk"><rect x="300" y="40" width="44" height="44" rx="10"/><path d="M309 57h26M309 66h16"/></g>
+<g class="blk"><rect x="640" y="110" width="60" height="60" rx="12"/><path d="M652 132h36M652 145h22"/></g>
+<g class="blk"><rect x="150" y="320" width="48" height="48" rx="10"/><path d="M159 338h30M159 349h18"/></g>
+<g class="blk"><rect x="520" y="300" width="52" height="52" rx="11"/><path d="M530 321h32M530 332h20"/></g>
+<g class="blk"><rect x="760" y="420" width="40" height="40" rx="9"/><path d="M768 435h24M768 444h15"/></g>
+<g class="blk"><rect x="60" y="600" width="56" height="56" rx="11"/><path d="M71 622h34M71 634h21"/></g>
+<g class="blk"><rect x="380" y="560" width="46" height="46" rx="10"/><path d="M389 578h28M389 588h17"/></g>
+<g class="blk"><rect x="680" y="700" width="58" height="58" rx="12"/><path d="M691 722h36M691 734h23"/></g>
+<g class="blk"><rect x="240" y="820" width="50" height="50" rx="10"/><path d="M249 840h32M249 851h19"/></g>
+<g class="blk"><rect x="560" y="900" width="44" height="44" rx="10"/><path d="M569 917h26M569 926h16"/></g>
+<g class="blk"><rect x="110" y="1040" width="52" height="52" rx="11"/><path d="M120 1061h32M120 1072h20"/></g>
+<g class="blk"><rect x="700" y="1080" width="46" height="46" rx="10"/><path d="M709 1098h28M709 1108h17"/></g>
+<g class="blk"><rect x="430" y="1120" width="40" height="40" rx="9"/><path d="M438 1135h24M438 1144h15"/></g>
+</g>
+</defs></svg>
+
+<div id="bg" aria-hidden="true">
+<svg class="s2" viewBox="0 0 900 1200" preserveAspectRatio="xMidYMin slice">
+<g class="drift d2"><use href="#tile"/><use href="#tile" y="1200"/><use href="#tile" y="2400"/></g>
+</svg>
+<svg class="s1" viewBox="0 0 900 1200" preserveAspectRatio="xMidYMin slice">
+<g class="drift"><use href="#tile"/><use href="#tile" y="1200"/><use href="#tile" y="2400"/></g>
+</svg>
+</div>
+
 <main>
 <div class="hero">
 <svg class="logo" viewBox="0 0 148 142" width="46" height="46" role="img" aria-label="Lukka">
@@ -622,7 +677,7 @@ $('cMsg').onclick = async () => {
 
 $('newer').onclick = () => {
   ['title', 'amount', 'buyer', 'seller', 'bAddr', 'sAddr', 'terms', 'note', 'paste'].forEach(i => { $(i).value = '' });
-  ['eTitle', 'eAmount', 'eBuyer', 'eSeller', 'eHolder', 'eBAddr', 'eSAddr', 'loadErr'].forEach(i => { i; $(i).textContent = '' });
+  ['eTitle', 'eAmount', 'eBuyer', 'eSeller', 'eHolder', 'eBAddr', 'eSAddr', 'loadErr'].forEach(i => { $(i).textContent = '' });
   $('termsCount').textContent = '0 / 600';
   $('holder').value = DEFAULT_HOLDER;
   $('net').value = 'Bitcoin';
@@ -649,4 +704,4 @@ $('newer').onclick = () => {
 })();
 </script>
 </body>
-</html>
+                                                                                                           </html>
