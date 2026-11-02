@@ -19,6 +19,8 @@ h1{font-size:24px;margin:8px 0 2px;letter-spacing:-.01em}h2{font-size:17px;margi
 label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
 input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
 textarea{min-height:76px;resize:vertical}
+input[readonly]{border-style:dashed;cursor:default;color:var(--tx)}
+select[disabled]{opacity:1;color:var(--mut);border-style:dashed;cursor:default;background:var(--bg)}
 .row{display:flex;gap:10px}.row>*{flex:1}
 button{font:inherit;font-weight:600;padding:12px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -107,13 +109,14 @@ button[disabled]{opacity:.5;cursor:not-allowed}
 <div><label for="buyer">Buyer name</label><input id="buyer" placeholder="Buyer" maxlength="60"><p class="err" id="eBuyer"></p></div>
 <div><label for="seller">Seller name</label><input id="seller" placeholder="Seller" maxlength="60"><p class="err" id="eSeller"></p></div>
 </div>
-<label for="net">Network</label>
-<select id="net"><option>Ethereum</option><option>Tron (TRC-20)</option><option>BNB Chain</option><option>Solana</option><option selected>Bitcoin</option><option>Polygon</option><option>Arbitrum</option><option>Base</option></select>
-<label for="holder">Escrow address (2-of-3 multisig or escrow smart contract)</label>
+<label for="net">Network (fixed)</label>
+<select id="net" disabled><option>Ethereum</option><option>Tron (TRC-20)</option><option>BNB Chain</option><option>Solana</option><option selected>Bitcoin</option><option>Polygon</option><option>Arbitrum</option><option>Base</option></select>
+<label for="holder">Escrow address</label>
 <div class="copyrow">
-<input id="holder" value="bc1qgw8smka9r9aak6c55x7dvnr7jnrlunjvka0n0u" placeholder="Address where the buyer will send funds" autocapitalize="off" spellcheck="false" maxlength="90">
+<input id="holder" value="bc1qgw8smka9r9aak6c55x7dvnr7jnrlunjvka0n0u" readonly aria-readonly="true" autocapitalize="off" spellcheck="false">
 <button type="button" class="cbtn" id="copyHolder" aria-label="Copy escrow address">Copy</button>
 </div>
+<p class="note">Fixed by Lukka. Tap Copy, or paste it into your wallet. Always check it on a block explorer before sending.</p>
 <p class="err" id="eHolder"></p>
 <label for="bAddr">Buyer refund address</label>
 <input id="bAddr" placeholder="Where a refund goes" autocapitalize="off" spellcheck="false" maxlength="90">
@@ -619,7 +622,7 @@ $('cMsg').onclick = async () => {
 
 $('newer').onclick = () => {
   ['title', 'amount', 'buyer', 'seller', 'bAddr', 'sAddr', 'terms', 'note', 'paste'].forEach(i => { $(i).value = '' });
-  ['eTitle', 'eAmount', 'eBuyer', 'eSeller', 'eHolder', 'eBAddr', 'eSAddr', 'loadErr'].forEach(i => { $(i).textContent = '' });
+  ['eTitle', 'eAmount', 'eBuyer', 'eSeller', 'eHolder', 'eBAddr', 'eSAddr', 'loadErr'].forEach(i => { i; $(i).textContent = '' });
   $('termsCount').textContent = '0 / 600';
   $('holder').value = DEFAULT_HOLDER;
   $('net').value = 'Bitcoin';
@@ -633,12 +636,14 @@ $('newer').onclick = () => {
 /* ---------- boot ---------- */
 (function boot() {
   paintCount();
+  $('holder').value = DEFAULT_HOLDER;
+  $('net').value = 'Bitcoin';
   if (!hasSubtle) {
     $('warnBox').innerHTML = '<div class="banner"><b>Signing is unavailable.</b> This browser will not let the page use its crypto engine here. Serve the file over https or from localhost and reload. You can still read deals, but new steps cannot be signed.</div>';
     $('create').disabled = true;
   }
   if (!window.isSecureContext && hasSubtle) {
-    $('warnBox').innerHTML = '<div class="banner"><b>Not a secure context.</b> Signing may fail silently. Serve the file over https or localhost.</div>';
+    $('warnBox').innerHTML = '<div class="banner"><b>Not a secure context.</b> Signing may fail silently. Serve the file over https or from localhost.</div>';
   }
   show('vNew');
 })();
